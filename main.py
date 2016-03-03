@@ -1,7 +1,7 @@
 import RandomForest
 import DecisionTree
-import evaluation
-import utils
+import Evaluation
+import Utils
 import os
 import sys
 reload(sys)
@@ -16,17 +16,17 @@ def run(searchForOptimal, basepath, filepath):
 	trainingData, testData = loadData(sc, basepath, filepath)
 
 	if searchForOptimal:
-		#optimalRandomForestModel = RandomForest.trainOptimalModel(trainingData, testData)
+		optimalRandomForestModel = RandomForest.trainOptimalModel(trainingData, testData)
+		Evaluation.evaluate(optimalRandomForestModel, testData, logMessage=True)
 
 		optimalDecisionTreeModel = DecisionTree.trainOptimalModel(trainingData, testData)
-		evaluation.evaluate(optimalDecisionTreeModel, testData)
+		Evaluation.evaluate(optimalDecisionTreeModel, testData, logMessage=True)
 	else:
-		#randomForestModel = RandomForest.trainModel(trainingData)
-		#utils.logMessage("\nTest Error : " + str(RandomForest.evaluateModel(randomForestModel, testData)))
+		randomForestModel = RandomForest.trainModel(trainingData)
+		Evaluation.evaluate(randomForestModel, testData, logMessage=True)
 
 		decisionTreeModel = DecisionTree.trainModel(trainingData)
-		evaluation.evaluate(decisionTreeModel, testData, logMessage=True)
-		#utils.logMessage("\nTest Error : " + str(DecisionTree.evaluateModel(decisionTreeModel, testData)))
+		Evaluation.evaluate(decisionTreeModel, testData, logMessage=True)
 
 
 def buildContext():

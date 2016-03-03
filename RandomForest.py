@@ -1,23 +1,24 @@
-import utils
+import Utils
+import Evaluation
 from pyspark import SparkConf, SparkContext, mllib
 from pyspark.mllib.tree import RandomForest
 
 def trainModel(trainingData):
 	print "\nTrainning Random Forest model started!"
-	utils.logTime()
+	Utils.logTime()
 
 	model = RandomForest.trainClassifier(trainingData, numClasses=2, categoricalFeaturesInfo={}, 
 											numTrees=3, featureSubsetStrategy="auto", impurity='gini',
 											maxDepth=5, maxBins=32)
 
 	print '\nTraining Random Forest model finished'
-	utils.logTime()
+	Utils.logTime()
 	return model
 
 
 def trainOptimalModel(trainingData, testData):
 	print "\nTraining optimal Random Forest model started!"
-	utils.logTime()
+	Utils.logTime()
 
 	numTreesVals = [3,5,8]
 	featureSubsetStrategyVals = ['auto','all','sqrt','log2','onethird']
@@ -47,7 +48,7 @@ def trainOptimalModel(trainingData, testData):
 														 		impurity=curImpurity, 
 														 		maxDepth=curMaxDepth,
 														 		maxBins=curMaxBins)
-							testErr = evaluateModel(model, testData)
+							testErr = Evaluation.evaluate(model, testData)
 							if testErr < minError or not minError:
 								minError = testErr
 								optimalNumTrees = curNumTree
@@ -68,12 +69,6 @@ def trainOptimalModel(trainingData, testData):
 	return optimalModel 
 
 
-def evaluateModel(model, testData):
-	predictions = model.predict(testData.map(lambda item: item.features))
-	labelsAndPredictions = testData.map(lambda item: item.label).zip(predictions)
-	return labelsAndPredictions.filter(lambda (v,p): v != p).count()/float(testData.count())
-
-
 def logMessage(optimalModel,optimalNumTrees, optimalFeatureSubsetStrategy, optimalMaxDepth, optimalImpurity, optimalBinsVal, minError):
 
 	print "\nTraining optimal Random Forest model finished:"
@@ -83,5 +78,5 @@ def logMessage(optimalModel,optimalNumTrees, optimalFeatureSubsetStrategy, optim
 	print "\toptimal impurity : " + str(optimalImpurity)
 	print "\toptimal max depth : " + str(optimalMaxDepth)
 	print "\toptimal bins val : " + str(optimalBinsVal)
-	utils.logTime()
+	Utils.logTime()
 	#print "\toptimal model : " + optimalModel.toDebugString()

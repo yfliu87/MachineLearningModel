@@ -1,4 +1,5 @@
-import utils
+import Utils
+import Evaluation
 from pyspark import SparkConf, SparkContext, mllib
 from pyspark.mllib.tree import DecisionTree
 import evaluation
@@ -6,17 +7,17 @@ import evaluation
 
 def trainModel(trainingData):
 	print '\nTraining Decision Tree model started'
-	utils.logTime()
+	Utils.logTime()
 
 	model = DecisionTree.trainClassifier(trainingData, numClasses=2, categoricalFeaturesInfo={}, impurity='gini', maxDepth=5,maxBins=32)
 	print '\nTraining Decision Tree model finished'
-	utils.logTime()
+	Utils.logTime()
 	return model
 
 
 def trainOptimalModel(trainingData, testData):
 	print "\nTraining optimal Decision Tree model started!"
-	utils.logTime()
+	Utils.logTime()
 
 	impurityVals = ['gini', 'entropy']
 	maxDepthVals = [3,4,5,6,7]
@@ -38,7 +39,7 @@ def trainOptimalModel(trainingData, testData):
 														 impurity=curImpurity, 
 														 maxDepth=curMaxDepth,
 														 maxBins=curMaxBins)
-					testErr, PR, ROC = evaluation.evaluate(model, testData)
+					testErr, PR, ROC = Evaluation.evaluate(model, testData)
 					if testErr < minError or not minError:
 						minError = testErr
 						optimalImpurity = curImpurity
@@ -62,7 +63,7 @@ def logMessage(optimalModel,optimalMaxDepth, optimalImpurity, optimalBinsVal, mi
 	print "\toptimal impurity : " + str(optimalImpurity)
 	print "\toptimal max depth : " + str(optimalMaxDepth)
 	print "\toptimal bins val : " + str(optimalBinsVal)
-	utils.logTime()
+	Utils.logTime()
 	#print "\toptimal model : " + optimalModel.toDebugString()
 
 
