@@ -58,12 +58,13 @@ def trainOptimalModel(trainingData, testData):
 								optimalBinsVal = curMaxBins
 								optimalModel = model
 	except:
-		print "\nException during model training with below parameters:"
-		print "\tnum trees: " + str(optimalNumTrees)
-		print "\tfeature subset strategy: " + optimalFeatureSubsetStrategy
-		print "\timpurity: " + str(curImpurity)
-		print "\tmaxDepth: " + str(curMaxDepth)
-		print "\tmaxBins: " + str(curMaxBins)
+		msg = "\nException during model training with below parameters:"
+		msg += "\tnum trees: " + str(optimalNumTrees)
+		msg += "\tfeature subset strategy: " + optimalFeatureSubsetStrategy
+		msg += "\timpurity: " + str(curImpurity)
+		msg += "\tmaxDepth: " + str(curMaxDepth)
+		msg += "\tmaxBins: " + str(curMaxBins)
+		Utls.logMessage(msg)
 
 	logMessage(optimalModel, optimalNumTrees, optimalFeatureSubsetStrategy, optimalMaxDepth, optimalImpurity, optimalBinsVal, minError)
 	return optimalModel 
@@ -71,12 +72,13 @@ def trainOptimalModel(trainingData, testData):
 
 def logMessage(optimalModel,optimalNumTrees, optimalFeatureSubsetStrategy, optimalMaxDepth, optimalImpurity, optimalBinsVal, minError):
 
-	print "\nTraining optimal Random Forest model finished:"
-	print "\tMin Test Error : " + str(minError)
-	print "\toptimal num trees : " + str(optimalNumTrees)
-	print "\toptimal feature subset strategy: " + str(optimalFeatureSubsetStrategy)
-	print "\toptimal impurity : " + str(optimalImpurity)
-	print "\toptimal max depth : " + str(optimalMaxDepth)
-	print "\toptimal bins val : " + str(optimalBinsVal)
+	msg = "\nTraining optimal Random Forest model finished:"
+	msg += "\tMin Test Error : " + str(minError)
+	msg += "\toptimal num trees : " + str(optimalNumTrees)
+	msg += "\toptimal feature subset strategy: " + str(optimalFeatureSubsetStrategy)
+	msg += "\toptimal impurity : " + str(optimalImpurity)
+	msg += "\toptimal max depth : " + str(optimalMaxDepth)
+	msg += "\toptimal bins val : " + str(optimalBinsVal)
+	Utils.logMessage(msg)s
 	Utils.logTime()
 	#print "\toptimal model : " + optimalModel.toDebugString()

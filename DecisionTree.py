@@ -47,10 +47,11 @@ def trainOptimalModel(trainingData, testData):
 						optimalBinsVal = curMaxBins
 						optimalModel = model
 	except:
-		print "\nException during model training with below parameters:"
-		print "\timpurity: " + str(curImpurity)
-		print "\tmaxDepth: " + str(curMaxDepth)
-		print "\tmaxBins: " + str(curMaxBins)
+		msg = "\nException during model training with below parameters:"
+		msg += "\timpurity: " + str(curImpurity)
+		msg += "\tmaxDepth: " + str(curMaxDepth)
+		msg += "\tmaxBins: " + str(curMaxBins)
+		Utils.logMessage(msg)
 
 	logMessage(optimalModel, optimalMaxDepth, optimalImpurity, optimalBinsVal, minError)
 	return optimalModel 
@@ -58,11 +59,12 @@ def trainOptimalModel(trainingData, testData):
 
 def logMessage(optimalModel,optimalMaxDepth, optimalImpurity, optimalBinsVal, minError):
 
-	print "\nTraining optimal Decision Tree model finished:"
-	print "\tMin Test Error : " + str(minError)
-	print "\toptimal impurity : " + str(optimalImpurity)
-	print "\toptimal max depth : " + str(optimalMaxDepth)
-	print "\toptimal bins val : " + str(optimalBinsVal)
+	msg = "\nTraining optimal Decision Tree model finished:"
+	msg += "\tMin Test Error : " + str(minError)
+	msg += "\toptimal impurity : " + str(optimalImpurity)
+	msg += "\toptimal max depth : " + str(optimalMaxDepth)
+	msg += "\toptimal bins val : " + str(optimalBinsVal)
+	Utils.logMessage(msg)
 	Utils.logTime()
 	#print "\toptimal model : " + optimalModel.toDebugString()
 
